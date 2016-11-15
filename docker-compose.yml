@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  jenkinsdata:
+    build: jenkins-data
+    container_name: jenkins-data
+
+  jenkinsmaster:
+    build: jenkins-master
+    container_name: jenkins-master
+    volumes_from:
+      - jenkinsdata
+    ports:
+      - "50000:50000"
+
+  jenkinsnginx:
+    build: jenkins-nginx
+    container_name: jenkins-nginx
+    mem_limit: 256m
+    ports:
+      - "80:80"
+    links:
+      - jenkinsmaster:jenkins-master
+
+  #jenkins:
+  #  image: salva-jenkins:0.0.1
+  #  container_name: jenkins-master
+    #build: .
+  #  environment:
+  #    JAVA_OPTS: $JAVAOPTS
+  #    JENKINS_OPTS: $JENKINSOPTS
+  #  ports:
+  #    - "50000:50000"
+  #    - "$JENKINSPORT:8080"
+  #  volumes:
+  #    - $LOCALDIR/jenkins_home:/var/jenkins_home
