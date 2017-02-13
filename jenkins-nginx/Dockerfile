@@ -8,9 +8,13 @@ RUN yum -y install nginx-1.8.0
 RUN rm /etc/nginx/conf.d/default.conf
 RUN rm /etc/nginx/conf.d/example_ssl.conf
 
-COPY conf/jenkins.conf /etc/nginx/conf.d/jenkins.conf
-COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/ssl/nginx.crt /etc/nginx/ssl/nginx.crt
+COPY conf/ssl/nginx.key /etc/nginx/ssl/nginx.key
 
+COPY conf/jenkins.conf /etc/nginx/conf.d/jenkins.conf
+COPY conf/nexus.conf /etc/nginx/conf.d/nexus.conf
+
+COPY conf/nginx.conf /etc/nginx/nginx.conf
 COPY html/ /usr/share/nginx/html
 
 EXPOSE 80
